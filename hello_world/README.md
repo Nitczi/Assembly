@@ -16,7 +16,7 @@ Let's take python3 as an example, for *writing* something in screen we can use `
 ![](man_write.png)
 
 ### First argument (`int fd`)
-The first argument is a file descriptor(fd), basically this will indicate where we will write to. In our case, it will be on the screen (the standard output or simply stdout). Since it only accepts integer values, the code for stdout is **0**.
+The first argument is a file descriptor(fd), basically this will indicate where we will write to. In our case, it will be on the screen (the standard output or simply stdout). Since it only accepts integer values, the code for stdout is **1**.
 
 ### Second argument (`const void buf[.count]`)
 This one indicates what we will print out. So it will be the message label, pretty simple.
@@ -32,7 +32,7 @@ Awesome! With this preparation, let's return to the assembly code. The line 4,5 
 Let's dive into.
 
 ### 1. 'Indicate what function we will use'
-In assembly, we normally indicate which syscall we will use by passing the value inside the `rax` register. It's a convention and needs to be followed. The value of a syscall is a number, and **write** syscall has the number 0, so you just need to `mov rax, 1` reading this as: move 1 to rax. Easy!
+In assembly, we normally indicate which syscall we will use by passing the value inside the `rax` register. It's a convention and needs to be followed. The value of a syscall is a number, and **write** syscall has the number 1, so you just need to `mov rax, 1` reading this as: move 1 to rax. Easy!
 
 ### 2. 'Tell the arguments'
 Now the arguments. We already talked about them before. As a convention too, the arguments of functions/syscall can be passed in some register: rdi, rsi, rdx, r10, r8 and r9. I used rdi, rsi and rdx to handle the arguments. There's no much secrete here, we passed in *rdi* the value of **1**(stdout) representing `int fd`; in *rsi* **message** representing `const void buf[.count]` and in *rdx* the value of **14** representing `size_t count`.
